@@ -33,7 +33,7 @@ export default {
       },
       update (data) {
         this.error = null
-        return data
+        return data.notes
       }
     }
   },
