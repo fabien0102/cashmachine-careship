@@ -1,0 +1,3 @@
+query Notes ($amount: Int) {
+  notes (amount: $amount)
+}
