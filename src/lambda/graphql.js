@@ -1,3 +1,3 @@
-import { server } from "./_server";
+import { server } from './_server'
 
-export const handler = server;
+export const handler = server

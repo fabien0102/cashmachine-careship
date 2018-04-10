@@ -1,3 +1,3 @@
-import { playground } from "./_server";
+import { playground } from './_server'
 
-export const handler = playground;
+export const handler = playground
