@@ -1,25 +1,36 @@
 <template>
-  <div>
+  <div class="cash-machine">
     <!-- Input -->
-    <input v-model="amount" type="number" @keyup="refresh"/>
+    <form>
+      <label for="amount">Your amount:</label>
+      <input id="amount" v-model="amount" type="number" @keyup="refresh"/>
+    </form>
 
     <!-- Result -->
-    <div v-if="$apollo.queries.notes.loading">
-      Loading...
-    </div>
-    <div v-else-if="error">
+    <Spinner v-if="$apollo.queries.notes.loading" />
+    <div v-else-if="error" class="error">
       {{ error }}
     </div>
     <div v-else>
-      {{ notes }}
+      <div class="notes-container">
+        <Note v-for="(note, i) in notes" :key="i" :value="note"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Spinner from './Spinner.vue'
+import Note from './Note.vue'
+
 export default {
   data () {
     return { amount: 0, notes: [], error: null }
+  },
+
+  components: {
+    Note,
+    Spinner
   },
 
   apollo: {
@@ -47,21 +58,31 @@ export default {
 </script>
 
 <style scoped>
-.form,
-.input,
-.apollo,
-.message {
-  padding: 12px;
+.cash-machine {
+  text-align: center;
 }
-
-.input {
-  font-family: inherit;
-  font-size: inherit;
-  border: solid 2px #ccc;
-  border-radius: 3px;
+form {
+  position: relative;
 }
-
+label {
+  position: absolute;
+  font-family: 'Bangers', cursive;
+  color: white;
+  top: -20px;
+}
+input {
+  padding: 10px;
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .3)
+}
+.notes-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 2em;
+}
 .error {
-  color: red;
+  margin-top: 2em;
 }
 </style>
