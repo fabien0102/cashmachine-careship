@@ -28,7 +28,7 @@ export default {
   height: 180px;
   margin: 10px;
   position: relative;
-  box-shadow: 0 0 5px rgba(0, 0, 0, .3)
+  box-shadow: 0 0 5px rgba(0, 0, 0, .3);
 }
 .value {
   color: white;
