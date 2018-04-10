@@ -11,7 +11,7 @@ Vue.use(VueApollo)
 Vue.config.productionTip = false
 
 // Create apollo stack (to communicate with the graphql server)
-const apolloClient = new ApolloClient({ uri: 'http://localhost:9000/graphql' })
+const apolloClient = new ApolloClient({ uri: '/.netlify/functions/graphql' })
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient
 })
