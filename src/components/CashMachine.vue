@@ -1,33 +1,47 @@
 <template>
   <div>
     <!-- Input -->
-    <input v-model="amount" type="number" />
-    <!-- Apollo watched Graphql query -->
-    <ApolloQuery
-      :query="require('../graphql/Notes.gql')"
-      :variables="{ amount }"
-    >
-      <template slot-scope="{ result: { loading, error, data } }">
-        <!-- Loading -->
-        <div v-if="loading" class="loading apollo">Loading...</div>
+    <input v-model="amount" type="number" @keyup="refresh"/>
 
-        <!-- Error -->
-        <div v-else-if="error" class="error apollo">An error occured: {{ error.message.split(': ')[1] }}</div>
-
-        <!-- Result -->
-        <div v-else-if="data" class="result apollo">{{ data }}</div>
-
-        <!-- No result -->
-        <div v-else class="no-result apollo">No result :(</div>
-      </template>
-    </ApolloQuery>
+    <!-- Result -->
+    <div v-if="$apollo.queries.notes.loading">
+      Loading...
+    </div>
+    <div v-else-if="error">
+      {{ error }}
+    </div>
+    <div v-else>
+      {{ notes }}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   data () {
-    return {amount: 0}
+    return { amount: 0, notes: [], error: null }
+  },
+
+  apollo: {
+    notes: {
+      query: require('../graphql/Notes.gql'),
+      variables () {
+        return { amount: this.amount }
+      },
+      error (err) {
+        this.error = err.message
+      },
+      update (data) {
+        this.error = null
+        return data
+      }
+    }
+  },
+
+  methods: {
+    refresh () {
+      this.$apollo.queries.notes.refresh()
+    }
   }
 }
 </script>
